@@ -1,4 +1,4 @@
-package com.example.domain.repository
+package com.example.liked_courses.repository
 
 import kotlinx.coroutines.flow.Flow
 

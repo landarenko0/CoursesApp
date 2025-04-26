@@ -22,3 +22,5 @@ dependencyResolutionManagement {
 rootProject.name = "Courses App"
 include(":app")
 include(":domain")
+include(":domain:courses")
+include(":domain:liked_courses")

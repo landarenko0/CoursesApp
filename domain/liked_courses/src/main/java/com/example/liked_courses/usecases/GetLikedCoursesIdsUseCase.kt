@@ -1,6 +1,6 @@
-package com.example.domain.usecase
+package com.example.liked_courses.usecases
 
-import com.example.domain.repository.LikedCoursesRepository
+import com.example.liked_courses.repository.LikedCoursesRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetLikedCoursesIdsUseCase(private val repository: LikedCoursesRepository) {

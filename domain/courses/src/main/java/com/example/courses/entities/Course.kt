@@ -1,4 +1,4 @@
-package com.example.domain.entities
+package com.example.courses.entities
 
 import java.time.LocalDate
 
