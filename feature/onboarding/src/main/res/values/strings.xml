@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_title">Тысячи курсов в одном месте</string>
+    <string name="one_s_administration">1С Администрирование</string>
+    <string name="rabbitmq">RabbitMQ</string>
+    <string name="traffic">Трафик</string>
+    <string name="content_marketing">Контент маркетинг</string>
+    <string name="b2b_marketing">B2B маркетинг</string>
+    <string name="google_analytics">Google Аналитика</string>
+    <string name="ux_researcher">UX исследователь</string>
+    <string name="web_analytics">Веб-аналитика</string>
+    <string name="big_data">Big Data</string>
+    <string name="game_design">Геймдизайн</string>
+    <string name="web_design">Веб-дизайн</string>
+    <string name="cinema_4d">Cinema 4D</string>
+    <string name="prompt_engineering">Промпт инженеринг</string>
+    <string name="webflow">Webflow</string>
+    <string name="three_js">Three.js</string>
+    <string name="parsing">Парсинг</string>
+    <string name="python_development">Python-разработка</string>
+    <string name="continue_btn">Продолжить</string>
+</resources>
