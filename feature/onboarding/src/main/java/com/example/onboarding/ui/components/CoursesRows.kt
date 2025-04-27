@@ -67,7 +67,7 @@ private val courseNamesLists = listOf(
 
 @Composable
 internal fun CoursesRows(modifier: Modifier = Modifier) {
-    val scrollState = rememberScrollState(initial = 500)
+    val scrollState = rememberScrollState()
 
     var containerSize by remember { mutableStateOf(IntSize.Zero) }
     var contentSize by remember { mutableStateOf(IntSize.Zero) }
