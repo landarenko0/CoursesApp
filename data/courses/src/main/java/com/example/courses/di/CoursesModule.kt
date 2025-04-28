@@ -5,9 +5,6 @@ import com.example.courses.remote.utils.BASE_URL
 import com.example.courses.remote.utils.converterFactory
 import com.example.courses.repository.CourseRepository
 import com.example.courses.repository.CourseRepositoryImpl
-import com.example.courses.usecases.GetAllCoursesUseCase
-import com.example.courses.usecases.GetCourseByIdUseCase
-import com.example.courses.usecases.GetCoursesByIdsUseCase
 import kotlinx.coroutines.Dispatchers
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -32,10 +29,4 @@ val coursesModule = module {
             .addConverterFactory(converterFactory)
             .build()
     }
-
-    factory<GetAllCoursesUseCase> { GetAllCoursesUseCase(repository = get()) }
-
-    factory<GetCoursesByIdsUseCase> { GetCoursesByIdsUseCase(repository = get()) }
-
-    factory<GetCourseByIdUseCase> { GetCourseByIdUseCase(repository = get()) }
 }
