@@ -6,21 +6,24 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
     primary = primary,
     onPrimary = onPrimary,
-    onSecondary = onSecondary
+    onSecondary = onSecondary,
+    onBackground = onBackground,
+    surfaceContainerHighest = surfaceContainerHighest,
+    onSurfaceVariant = onSurfaceVariant
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = primary,
-    onPrimary = onPrimary,
-    onSecondary = onSecondary
-)
+//private val LightColorScheme = lightColorScheme(
+//    primary = primary,
+//    onPrimary = onPrimary,
+//    onSecondary = onSecondary,
+//    onBackground = onBackground
+//)
 
 @Composable
 fun CoursesAppTheme(
@@ -35,7 +38,7 @@ fun CoursesAppTheme(
         }
 
         darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        else -> DarkColorScheme
     }
 
     MaterialTheme(
