@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -18,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import com.example.core.ui.components.CoursesAppPrimaryButton
 import com.example.onboarding.ui.components.CoursesRows
 import com.example.core.R as coreR
 import com.example.onboarding.R as onboardingR
@@ -41,8 +41,8 @@ fun OnboardingRoot(
 
 @Composable
 private fun OnboardingScreen(
-    modifier: Modifier = Modifier,
-    onContinueButtonClick: () -> Unit
+    onContinueButtonClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -62,16 +62,12 @@ private fun OnboardingScreen(
 
         Spacer(Modifier.weight(1f))
 
-        Button(
+        CoursesAppPrimaryButton(
             onClick = onContinueButtonClick,
+            text = stringResource(onboardingR.string.continue_btn),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = dimensionResource(coreR.dimen.medium))
-        ) {
-            Text(
-                text = stringResource(onboardingR.string.continue_btn),
-                style = MaterialTheme.typography.titleSmall
-            )
-        }
+        )
     }
 }

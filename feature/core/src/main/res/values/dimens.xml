@@ -5,4 +5,5 @@
     <dimen name="medium">16dp</dimen>
     <dimen name="large">24dp</dimen>
     <dimen name="extra_large">32dp</dimen>
+    <dimen name="button_height">40dp</dimen>
 </resources>
