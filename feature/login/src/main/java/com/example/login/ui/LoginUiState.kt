@@ -1,6 +1,6 @@
 package com.example.login.ui
 
-data class LoginUiState(
+internal data class LoginUiState(
     val email: String = "",
     val password: String = "",
     val loginButtonEnabled: Boolean = false
