@@ -6,6 +6,6 @@ import retrofit2.http.GET
 
 internal interface CourseService {
 
-    @GET("/db")
-    fun getAllCourses(): Response<CoursesApiResponse>
+    @GET("/landarenko0/coursesapp/db")
+    suspend fun getAllCourses(): Response<CoursesApiResponse>
 }

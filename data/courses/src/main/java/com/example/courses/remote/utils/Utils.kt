@@ -4,6 +4,6 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 
-const val BASE_URL = "my-json-server.typicode.com/landarenko0/coursesapp"
+const val BASE_URL = "https://my-json-server.typicode.com"
 
 val converterFactory = Json.asConverterFactory(MediaType.get("application/json; charset=UTF8"))
