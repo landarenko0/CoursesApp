@@ -8,6 +8,7 @@ val onSecondary = Color(0xFFF2F2F3)
 val onBackground = Color(0xFFF2F2F3)
 val surfaceContainerHighest = Color(0xFF32333A)
 val onSurfaceVariant = Color(0xFFF2F2F3)
+val onSurface = Color(0xFFF2F2F3)
 
 val Glass = Color(0x32333A4D)
 val VkColor = Color(0xFF2683ED)

@@ -47,8 +47,14 @@ val Typography = Typography(
     ),
     bodySmall = TextStyle(
         fontFamily = Roboto,
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
         lineHeight = 16.sp
+    ),
+    labelSmall = TextStyle(
+        fontFamily = Roboto,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 12.sp,
+        lineHeight = 15.sp
     )
 )
