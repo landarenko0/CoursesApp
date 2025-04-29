@@ -11,8 +11,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -25,7 +28,12 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.core.ui.components.CoursesAppPrimaryButton
@@ -103,6 +111,11 @@ private fun LoginScreen(
                     value = uiState.email,
                     onValueChange = viewModel::updateEmail,
                     placeholder = stringResource(loginR.string.email_hint),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Email,
+                        imeAction = ImeAction.Next
+                    ),
+                    singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -119,6 +132,35 @@ private fun LoginScreen(
                     value = uiState.password,
                     onValueChange = viewModel::updatePassword,
                     placeholder = stringResource(loginR.string.password_hint),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Done
+                    ),
+                    visualTransformation = if (uiState.showPassword) VisualTransformation.None else PasswordVisualTransformation(),
+                    singleLine = true,
+                    trailingIcon = {
+                        val iconResId = if (uiState.showPassword) {
+                            coreR.drawable.visibility_off_icon
+                        } else {
+                            coreR.drawable.visibility_icon
+                        }
+
+                        val descriptionResId = if (uiState.showPassword) {
+                            coreR.string.hide_password
+                        } else {
+                            coreR.string.show_password
+                        }
+
+                        IconButton(
+                            onClick = viewModel::changePasswordVisibility,
+                            modifier = Modifier.padding(end = dimensionResource(coreR.dimen.small))
+                        ) {
+                            Icon(
+                                painter = painterResource(iconResId),
+                                contentDescription = stringResource(descriptionResId)
+                            )
+                        }
+                    },
                     modifier = Modifier.fillMaxWidth()
                 )
             }

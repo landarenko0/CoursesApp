@@ -43,4 +43,8 @@ internal class LoginViewModel(
             )
         }
     }
+
+    fun changePasswordVisibility() {
+        _uiState.update { it.copy(showPassword = !_uiState.value.showPassword) }
+    }
 }
