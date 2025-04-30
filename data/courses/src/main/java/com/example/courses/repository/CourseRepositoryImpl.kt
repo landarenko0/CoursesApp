@@ -5,16 +5,11 @@ import com.example.courses.exceptions.ApiException
 import com.example.courses.remote.entities.CoursesApiResponse
 import com.example.courses.remote.mapper.toDomain
 import com.example.courses.remote.service.CourseService
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
 
-internal class CourseRepositoryImpl(
-    private val service: CourseService,
-    private val dispatcher: CoroutineDispatcher
-): CourseRepository {
+internal class CourseRepositoryImpl(private val service: CourseService): CourseRepository {
 
-    override suspend fun getAllCourses(): Result<List<Course>> = withContext(dispatcher) {
-        try {
+    override suspend fun getAllCourses(): Result<List<Course>> {
+        return try {
             val serviceResponse = service.getAllCourses()
             val body = serviceResponse.body()
 
@@ -30,10 +25,8 @@ internal class CourseRepositoryImpl(
         }
     }
 
-    override suspend fun getCoursesByIds(
-        courseIds: List<Long>
-    ): Result<List<Course>> = withContext(dispatcher) {
-        try {
+    override suspend fun getCoursesByIds(courseIds: List<Long>): Result<List<Course>> {
+        return try {
             val serviceResponse = service.getAllCourses()
             val body = serviceResponse.body()
 
@@ -49,8 +42,8 @@ internal class CourseRepositoryImpl(
         }
     }
 
-    override suspend fun getCourseById(courseId: Long): Result<Course?> = withContext(dispatcher) {
-        try {
+    override suspend fun getCourseById(courseId: Long): Result<Course?> {
+        return try {
             val serviceResponse = service.getAllCourses()
             val body = serviceResponse.body()
 

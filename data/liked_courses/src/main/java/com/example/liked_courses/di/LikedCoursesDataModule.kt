@@ -4,17 +4,13 @@ import com.example.liked_courses.local.dao.LikedCoursesDao
 import com.example.liked_courses.local.database.LikedCoursesDatabase
 import com.example.liked_courses.repository.LikedCoursesRepository
 import com.example.liked_courses.repository.LikedCoursesRepositoryImpl
-import kotlinx.coroutines.Dispatchers
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val likedCoursesDataModule = module {
 
-    single<LikedCoursesRepository> {
-        LikedCoursesRepositoryImpl(
-            likedCoursesDao = get(),
-            dispatcher = Dispatchers.IO
-        )
-    }
+    singleOf(::LikedCoursesRepositoryImpl) { bind<LikedCoursesRepository>() }
 
     single<LikedCoursesDao> {
         val database = get<LikedCoursesDatabase>()

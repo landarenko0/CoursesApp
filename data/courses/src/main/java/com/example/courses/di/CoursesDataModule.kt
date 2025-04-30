@@ -5,18 +5,14 @@ import com.example.courses.remote.utils.BASE_URL
 import com.example.courses.remote.utils.converterFactory
 import com.example.courses.repository.CourseRepository
 import com.example.courses.repository.CourseRepositoryImpl
-import kotlinx.coroutines.Dispatchers
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
 val coursesDataModule = module {
 
-    single<CourseRepository> {
-        CourseRepositoryImpl(
-            service = get(),
-            dispatcher = Dispatchers.IO
-        )
-    }
+    singleOf(::CourseRepositoryImpl) { bind<CourseRepository>() }
 
     single<CourseService> {
         val retrofit = get<Retrofit>()
