@@ -50,13 +50,14 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.koin)
+    implementation(libs.koin.android)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization)
 
     implementation(project(":feature:core"))
     implementation(project(":feature:onboarding"))
     implementation(project(":feature:login"))
+    implementation(project(":feature:home"))
 
     implementation(project(":domain:auth"))
     implementation(project(":domain:courses"))
@@ -64,6 +65,7 @@ dependencies {
 
     implementation(project(":data:courses"))
     implementation(project(":data:liked_courses"))
+    implementation(project(":data:auth"))
 
     testImplementation(libs.junit)
 

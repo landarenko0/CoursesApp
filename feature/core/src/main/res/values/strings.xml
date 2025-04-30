@@ -2,6 +2,8 @@
 <resources>
     <string name="vk_btn_content_description">ВКонтакте</string>
     <string name="ok_btn_content_description">Одноклассники</string>
+    <string name="more_details">Подробнее</string>
+    <string name="price">%1$s ₽</string>
     <string name="show_password">Показать пароль</string>
     <string name="hide_password">Скрыть пароль</string>
 </resources>

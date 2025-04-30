@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -19,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.example.core.ui.components.CoursesAppPrimaryButton
 import com.example.onboarding.ui.components.CoursesRows
+import org.koin.androidx.compose.koinViewModel
 import com.example.core.R as coreR
 import com.example.onboarding.R as onboardingR
 
@@ -42,8 +44,17 @@ fun OnboardingRoot(
 @Composable
 private fun OnboardingScreen(
     onContinueButtonClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: OnboardingViewModel = koinViewModel()
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.event.collect { event ->
+            when (event) {
+                OnboardingEvent.NavigateToLoginScreen -> onContinueButtonClick()
+            }
+        }
+    }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(coreR.dimen.extra_large)),
@@ -63,7 +74,7 @@ private fun OnboardingScreen(
         Spacer(Modifier.weight(1f))
 
         CoursesAppPrimaryButton(
-            onClick = onContinueButtonClick,
+            onClick = viewModel::onLoginButtonClick,
             text = stringResource(onboardingR.string.continue_btn),
             modifier = Modifier
                 .fillMaxWidth()

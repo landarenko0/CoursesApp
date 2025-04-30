@@ -39,7 +39,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.kotlinx.serialization)
     implementation(libs.kotlinx.serialization.converter)
-    implementation(libs.koin)
+    implementation(libs.koin.android)
 
     implementation(project(":domain:courses"))
 

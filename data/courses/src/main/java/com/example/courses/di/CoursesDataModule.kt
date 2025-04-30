@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
-val coursesModule = module {
+val coursesDataModule = module {
 
     single<CourseRepository> {
         CourseRepositoryImpl(

@@ -2,20 +2,20 @@ package com.example.coursesapp.navigation
 
 import kotlinx.serialization.Serializable
 
-@Serializable
-data object OnboardingScreen
+sealed interface AppScreens {
 
-@Serializable
-data object LoginScreen
+    @Serializable
+    data object OnboardingScreen : AppScreens
 
-@Serializable
-data object HomeScreen
+    @Serializable
+    data object LoginScreen : AppScreens
 
-@Serializable
-data class CourseScreen(val courseId: Long)
+    @Serializable
+    data object HomeScreen : AppScreens
 
-@Serializable
-data object LikedCoursesScreen
+    @Serializable
+    data object LikedCoursesScreen : AppScreens
 
-@Serializable
-data object AccountScreen
+    @Serializable
+    data object AccountScreen : AppScreens
+}

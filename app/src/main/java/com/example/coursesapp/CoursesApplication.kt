@@ -1,10 +1,16 @@
 package com.example.coursesapp
 
 import android.app.Application
-import com.example.courses.di.coursesModule
-import com.example.coursesapp.di.useCasesModule
-import com.example.liked_courses.di.likedCoursesModule
+import com.example.auth.di.authDataModule
+import com.example.auth.di.authDomainModule
+import com.example.courses.di.coursesDataModule
+import com.example.courses.di.coursesDomainModule
+import com.example.coursesapp.di.appModule
+import com.example.home.di.homeModule
+import com.example.liked_courses.di.likedCoursesDataModule
+import com.example.liked_courses.di.likedCoursesDomainModule
 import com.example.login.di.loginModule
+import com.example.onboarding.di.onboardingModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -15,11 +21,28 @@ class CoursesApplication : Application() {
 
         startKoin {
             androidContext(this@CoursesApplication)
+
+            modules(appModule)
+
+            // data modules
             modules(
-                coursesModule,
-                likedCoursesModule,
-                useCasesModule,
-                loginModule
+                coursesDataModule,
+                likedCoursesDataModule,
+                authDataModule
+            )
+
+            // domain modules
+            modules(
+                authDomainModule,
+                coursesDomainModule,
+                likedCoursesDomainModule
+            )
+
+            // feature modules
+            modules(
+                onboardingModule,
+                loginModule,
+                homeModule
             )
         }
     }

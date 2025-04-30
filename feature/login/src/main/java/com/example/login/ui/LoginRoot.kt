@@ -20,6 +20,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -40,8 +41,8 @@ import com.example.core.ui.components.CoursesAppPrimaryButton
 import com.example.core.ui.components.CoursesAppTextField
 import com.example.core.ui.components.OkButton
 import com.example.core.ui.components.VkButton
-import com.example.core.ui.utils.OK_URL
-import com.example.core.ui.utils.VK_URL
+import com.example.core.utils.OK_URL
+import com.example.core.utils.VK_URL
 import org.koin.androidx.compose.koinViewModel
 import com.example.core.R as coreR
 import com.example.login.R as loginR
@@ -69,6 +70,14 @@ private fun LoginScreen(
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = koinViewModel()
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.event.collect { event ->
+            when (event) {
+                LoginEvent.NavigateToHomeScreen -> onLoginButtonClick()
+            }
+        }
+    }
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val uriHandler = LocalUriHandler.current
@@ -166,7 +175,7 @@ private fun LoginScreen(
             }
 
             CoursesAppPrimaryButton(
-                onClick = onLoginButtonClick,
+                onClick = viewModel::onLoginButtonClick,
                 text = stringResource(loginR.string.login),
                 enabled = uiState.loginButtonEnabled,
                 modifier = Modifier.fillMaxWidth()

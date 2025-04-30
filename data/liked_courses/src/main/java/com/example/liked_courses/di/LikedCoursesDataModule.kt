@@ -7,7 +7,7 @@ import com.example.liked_courses.repository.LikedCoursesRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import org.koin.dsl.module
 
-val likedCoursesModule = module {
+val likedCoursesDataModule = module {
 
     single<LikedCoursesRepository> {
         LikedCoursesRepositoryImpl(
