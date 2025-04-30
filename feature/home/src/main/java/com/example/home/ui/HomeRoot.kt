@@ -2,12 +2,12 @@ package com.example.home.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -24,16 +24,15 @@ import com.example.home.R as homeR
 
 @Composable
 fun HomeRoot() {
-    Scaffold(
-        modifier = Modifier.fillMaxSize()
-    ) { paddingValues ->
-        HomeScreen(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(dimensionResource(coreR.dimen.medium))
-        )
-    }
+    HomeScreen(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                top = dimensionResource(coreR.dimen.medium),
+                start = dimensionResource(coreR.dimen.medium),
+                end = dimensionResource(coreR.dimen.medium)
+            )
+    )
 }
 
 @Composable
@@ -68,6 +67,7 @@ private fun HomeScreen(
             courses = uiState.courses,
             onCourseClick = {},
             onCourseLikeClick = {},
+            contentPadding = PaddingValues(bottom = dimensionResource(coreR.dimen.medium)),
             modifier = Modifier.fillMaxSize()
         )
     }

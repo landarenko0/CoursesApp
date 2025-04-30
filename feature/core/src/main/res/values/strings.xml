@@ -6,4 +6,7 @@
     <string name="price">%1$s ₽</string>
     <string name="show_password">Показать пароль</string>
     <string name="hide_password">Скрыть пароль</string>
+    <string name="main">Главная</string>
+    <string name="liked_courses">Избранное</string>
+    <string name="account">Аккаунт</string>
 </resources>
