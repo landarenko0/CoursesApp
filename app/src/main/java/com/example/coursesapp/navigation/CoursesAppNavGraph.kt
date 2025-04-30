@@ -19,6 +19,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.core.ui.theme.DarkGrey
 import com.example.home.ui.HomeRoot
 import com.example.login.ui.LoginRoot
 import com.example.onboarding.ui.OnboardingRoot
@@ -61,13 +62,19 @@ fun CoursesAppNavGraph(startScreen: AppScreens) {
     Scaffold(
         bottomBar = {
             if (showBottomBar) {
-                NavigationBar {
+                NavigationBar(
+                    containerColor = DarkGrey
+                ) {
                     navigationItems.forEachIndexed { index, item ->
                         NavigationBarItem(
                             label = {
                                 Text(
                                     text = stringResource(item.titleRes),
-                                    style = MaterialTheme.typography.labelSmall
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = when (selectedNavigationItemIndex) {
+                                        index -> MaterialTheme.colorScheme.primary
+                                        else -> MaterialTheme.colorScheme.onPrimary
+                                    }
                                 )
                             },
                             selected = selectedNavigationItemIndex == index,
