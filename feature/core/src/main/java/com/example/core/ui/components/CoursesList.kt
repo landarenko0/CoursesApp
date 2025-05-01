@@ -1,10 +1,8 @@
 package com.example.core.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,26 +12,23 @@ import com.example.core.domain.entities.CourseItem
 
 @Composable
 fun CoursesList(
+    likedCourses: List<Long>,
     courses: List<CourseItem>,
-    onCourseClick: () -> Unit,
-    onCourseLikeClick: () -> Unit,
+    onCourseClick: (CourseItem) -> Unit,
+    onCourseLikeClick: (Long, Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues()
 ) {
-    LazyColumn(
+    Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.medium)),
-        contentPadding = contentPadding,
         modifier = modifier
     ) {
-        items(
-            items = courses,
-            key = { it.id }
-        ) { courseItem ->
+        courses.forEach { courseItem ->
             CourseCard(
                 course = courseItem,
-                onClick = onCourseClick,
-                onLikeClick = onCourseLikeClick,
+                hasLike = courseItem.id in likedCourses,
+                onClick = { onCourseClick(courseItem) },
+                onLikeClick = { onCourseLikeClick(courseItem.id, courseItem.id in likedCourses) },
                 modifier = Modifier.fillMaxWidth()
             )
         }

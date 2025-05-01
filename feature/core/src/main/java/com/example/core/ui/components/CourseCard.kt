@@ -32,10 +32,13 @@ import com.example.core.R
 import com.example.core.domain.entities.CourseItem
 import com.example.core.ui.theme.CoursesAppTheme
 import com.example.core.ui.theme.Glass
+import com.example.core.utils.formatDate
+import java.time.LocalDate
 
 @Composable
 fun CourseCard(
     course: CourseItem,
+    hasLike: Boolean,
     onClick: () -> Unit,
     onLikeClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -46,9 +49,9 @@ fun CourseCard(
         modifier = modifier
     ) {
         CourseCardImage(
-            hasLike = course.hasLike,
+            hasLike = hasLike,
             rate = course.rate,
-            date = course.startDate,
+            date = course.startDate.formatDate(),
             onLikeClick = onLikeClick,
             modifier = Modifier.fillMaxWidth()
         )
@@ -249,10 +252,11 @@ private fun CourseCardPreview() {
                 text = "Освойте backend-разработку и программирование на Java, фреймворки Spring и Maven, работу с базами данных и API. Создайте свой собственный проект, собрав портфолио и став востребованным специалистом для любой IT компании.",
                 price = "999",
                 rate = "4.9",
-                startDate = "22 Мая 2024",
+                startDate = LocalDate.of(2024, 5, 22),
                 hasLike = true,
-                publishDate = "22 Мая 2024"
+                publishDate = LocalDate.of(2024, 5, 22)
             ),
+            hasLike = true,
             onClick = {},
             onLikeClick = {},
             modifier = Modifier.fillMaxWidth()
