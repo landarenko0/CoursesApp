@@ -7,6 +7,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -70,28 +71,34 @@ fun CoursesAppNavGraph(startScreen: AppScreens) {
                             label = {
                                 Text(
                                     text = stringResource(item.titleRes),
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = when (selectedNavigationItemIndex) {
-                                        index -> MaterialTheme.colorScheme.primary
-                                        else -> MaterialTheme.colorScheme.onPrimary
-                                    }
+                                    style = MaterialTheme.typography.labelSmall
                                 )
                             },
                             selected = selectedNavigationItemIndex == index,
-                            onClick = { navController.navigate(item.route) },
+                            onClick = {
+                                navController.navigate(item.route) {
+                                    popUpTo(AppScreens.HomeScreen) { saveState = true }
+
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
                             icon = {
                                 Icon(
                                     painter = painterResource(item.iconRes),
-                                    tint = when (selectedNavigationItemIndex) {
-                                        index -> MaterialTheme.colorScheme.primary
-                                        else -> MaterialTheme.colorScheme.onPrimary
-                                    },
                                     modifier = Modifier.size(
                                         dimensionResource(coreR.dimen.navigation_item_size)
                                     ),
                                     contentDescription = stringResource(item.titleRes)
                                 )
-                            }
+                            },
+                            colors = NavigationBarItemDefaults.colors(
+                                selectedIconColor = MaterialTheme.colorScheme.primary,
+                                selectedTextColor = MaterialTheme.colorScheme.primary,
+                                unselectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                                unselectedTextColor = MaterialTheme.colorScheme.onPrimary,
+                                indicatorColor = MaterialTheme.colorScheme.surfaceContainerHighest
+                            )
                         )
                     }
                 }
