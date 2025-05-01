@@ -31,7 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.core.R
 import com.example.core.domain.entities.CourseItem
 import com.example.core.ui.theme.CoursesAppTheme
-import com.example.core.ui.theme.Glass
+import com.example.core.ui.theme.TransparentDark
 import com.example.core.utils.formatDate
 import java.time.LocalDate
 
@@ -173,7 +173,7 @@ private fun RateCard(
 ) {
     Card(
         shape = MaterialTheme.shapes.small,
-        colors = CardDefaults.cardColors(containerColor = Glass),
+        colors = CardDefaults.cardColors(containerColor = TransparentDark),
         modifier = modifier
     ) {
         Row(
@@ -202,7 +202,7 @@ private fun DateCard(
 ) {
     Card(
         shape = MaterialTheme.shapes.small,
-        colors = CardDefaults.cardColors(containerColor = Glass),
+        colors = CardDefaults.cardColors(containerColor = TransparentDark),
         modifier = modifier
     ) {
         Text(
@@ -224,7 +224,7 @@ private fun LikeCard(
     Card(
         onClick = onClick,
         shape = MaterialTheme.shapes.large,
-        colors = CardDefaults.cardColors(containerColor = Glass),
+        colors = CardDefaults.cardColors(containerColor = TransparentDark),
         modifier = modifier
     ) {
         Box(Modifier.fillMaxSize()) {
