@@ -14,8 +14,8 @@ internal interface LikedCoursesDao {
     fun getLikedCourses(): Flow<List<LikedCourseDb>>
 
     @Insert
-    fun insertLikedCourse(likedCourse: LikedCourseDb)
+    suspend fun insertLikedCourse(likedCourse: LikedCourseDb)
 
     @Delete
-    fun deleteLikedCourse(likedCourse: LikedCourseDb)
+    suspend fun deleteLikedCourse(likedCourse: LikedCourseDb)
 }
