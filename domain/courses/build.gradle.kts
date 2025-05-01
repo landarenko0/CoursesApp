@@ -15,4 +15,5 @@ kotlin {
 dependencies {
 
     implementation(libs.koin.core)
+    implementation(libs.coroutines)
 }

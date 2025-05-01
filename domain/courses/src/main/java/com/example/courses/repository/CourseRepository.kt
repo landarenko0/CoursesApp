@@ -1,12 +1,12 @@
 package com.example.courses.repository
 
+import com.example.courses.entities.ApiResult
 import com.example.courses.entities.Course
+import kotlinx.coroutines.flow.Flow
 
 interface CourseRepository {
 
-    suspend fun getAllCourses(): Result<List<Course>>
+    fun getAllCourses(): Flow<ApiResult<List<Course>>>
 
-    suspend fun getCoursesByIds(courseIds: List<Long>): Result<List<Course>>
-
-    suspend fun getCourseById(courseId: Long): Result<Course?>
+    fun getCoursesByIds(courseIds: List<Long>): Flow<ApiResult<List<Course>>>
 }

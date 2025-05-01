@@ -4,15 +4,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import com.example.core.ui.components.CoursesList
+import com.example.core.ui.components.CourseCard
 import com.example.home.ui.HomeUiState
 import com.example.core.R as coreR
 import com.example.home.R as homeR
@@ -55,13 +55,16 @@ internal fun SuccessScreen(
             }
         }
 
-        item {
-            CoursesList(
-                likedCourses = uiState.likedCoursesIds,
-                courses = uiState.courses,
-                onCourseClick = {},
-                onCourseLikeClick = onCourseLikeClick,
-                modifier = Modifier.fillMaxSize()
+        items(
+            items = uiState.courses,
+            key = { it.id }
+        ) { courseItem ->
+            CourseCard(
+                course = courseItem,
+                hasLike = courseItem.id in uiState.likedCoursesIds,
+                onClick = {},
+                onLikeClick = { onCourseLikeClick(courseItem.id, courseItem.id in uiState.likedCoursesIds) },
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }
