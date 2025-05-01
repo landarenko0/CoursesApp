@@ -9,4 +9,6 @@
     <string name="main">Главная</string>
     <string name="liked_courses">Избранное</string>
     <string name="account">Аккаунт</string>
+    <string name="data_fetching_error">Что-то пошло не так. Проверьте интернет подключение</string>
+    <string name="retry">Повторить загрузку</string>
 </resources>

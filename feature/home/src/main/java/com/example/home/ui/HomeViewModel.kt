@@ -8,6 +8,8 @@ import com.example.courses.usecases.GetAllCoursesUseCase
 import com.example.liked_courses.usecases.GetLikedCoursesIdsUseCase
 import com.example.liked_courses.usecases.MarkCourseAsLikedUseCase
 import com.example.liked_courses.usecases.MarkCourseAsUnlikedUseCase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,26 +20,81 @@ import kotlinx.coroutines.launch
 
 internal class HomeViewModel(
     private val getAllCoursesUseCase: GetAllCoursesUseCase,
-    private val getLikedCoursesUseCase: GetLikedCoursesIdsUseCase,
+    getLikedCoursesUseCase: GetLikedCoursesIdsUseCase,
     private val markCourseAsLikedUseCase: MarkCourseAsLikedUseCase,
     private val markCourseAsUnlikedUseCase: MarkCourseAsUnlikedUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(HomeUiState())
+    private val _uiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    init {
-//        val likedCoursesFlow: Flow<List<Long>> = getLikedCoursesUseCase()
-//        likedCoursesFlow
-//            .onEach {}
-//            .launchIn(viewModelScope)
+    private var currentOrderType = OrderType.PUBLISH_DATE_ASC
 
+    init {
+        val likedCoursesFlow: Flow<List<Long>> = getLikedCoursesUseCase()
+        likedCoursesFlow
+            .onEach { ids ->
+                if (_uiState.value is HomeUiState.Success) {
+                    _uiState.update { (it as HomeUiState.Success).copy(likedCoursesIds = ids) }
+                } else {
+                    _uiState.update { HomeUiState.Success(likedCoursesIds = ids) }
+                }
+            }
+            .launchIn(viewModelScope)
+
+        getCourses()
+    }
+
+    fun changeCoursesOrderType() {
+        val state = _uiState.value as? HomeUiState.Success
+
+        if (state != null) {
+            viewModelScope.launch(Dispatchers.Default) {
+                val courses = state.courses
+
+                val reorderedCourses = when (currentOrderType) {
+                    OrderType.PUBLISH_DATE_ASC -> {
+                        currentOrderType = OrderType.PUBLISH_DATE_DESC
+                        courses.sortedByDescending { it.publishDate }
+                    }
+
+                    OrderType.PUBLISH_DATE_DESC -> {
+                        currentOrderType = OrderType.PUBLISH_DATE_ASC
+                        courses.sortedBy { it.publishDate }
+                    }
+                }
+
+                _uiState.update { state.copy(courses = reorderedCourses) }
+            }
+        }
+    }
+
+    fun onCourseLikeClick(courseId: Long, hasLike: Boolean) {
         viewModelScope.launch {
+            if (hasLike) markCourseAsUnlikedUseCase(courseId)
+            else markCourseAsLikedUseCase(courseId)
+        }
+    }
+
+    fun getCourses() {
+        viewModelScope.launch {
+            _uiState.update { HomeUiState.Loading }
+
             val allCoursesResult: Result<List<Course>> = getAllCoursesUseCase()
 
             if (allCoursesResult.isSuccess) {
                 val courses = allCoursesResult.getOrDefault(emptyList())
-                _uiState.update { it.copy(courses = courses.map { it.toItem() }) }
+                val orderedCourses = async(Dispatchers.Default) {
+                    courses.map { it.toItem() }.sortedBy { it.publishDate }
+                }.await()
+
+                if (_uiState.value is HomeUiState.Success) {
+                    _uiState.update { (it as HomeUiState.Success).copy(courses = orderedCourses) }
+                } else {
+                    _uiState.update { HomeUiState.Success(courses = orderedCourses) }
+                }
+            } else {
+                _uiState.update { HomeUiState.Failure }
             }
         }
     }
