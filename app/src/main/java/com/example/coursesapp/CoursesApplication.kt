@@ -1,6 +1,7 @@
 package com.example.coursesapp
 
 import android.app.Application
+import com.example.account.di.accountModule
 import com.example.auth.di.authDataModule
 import com.example.auth.di.authDomainModule
 import com.example.courses.di.coursesDataModule
@@ -42,7 +43,8 @@ class CoursesApplication : Application() {
             modules(
                 loginModule,
                 homeModule,
-                likedCoursesModule
+                likedCoursesModule,
+                accountModule
             )
         }
     }

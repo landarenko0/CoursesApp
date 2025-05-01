@@ -20,6 +20,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.account.ui.AccountRoot
 import com.example.core.ui.theme.DarkGrey
 import com.example.home.ui.HomeRoot
 import com.example.liked_courses.ui.LikedCoursesRoot
@@ -141,7 +142,18 @@ fun CoursesAppNavGraph(startScreen: AppScreens) {
                 LikedCoursesRoot()
             }
 
-            composable<AppScreens.AccountScreen> { }
+            composable<AppScreens.AccountScreen> {
+                AccountRoot(
+                    onLogOutButtonClick = {
+                        navController.navigate(AppScreens.LoginScreen) {
+                            navController.popBackStack(
+                                route = AppScreens.HomeScreen,
+                                inclusive = true
+                            )
+                        }
+                    }
+                )
+            }
         }
     }
 }
