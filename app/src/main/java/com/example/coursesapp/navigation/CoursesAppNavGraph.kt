@@ -22,6 +22,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.core.ui.theme.DarkGrey
 import com.example.home.ui.HomeRoot
+import com.example.liked_courses.ui.LikedCoursesRoot
 import com.example.login.ui.LoginRoot
 import com.example.onboarding.ui.OnboardingRoot
 import com.example.core.R as coreR
@@ -136,7 +137,9 @@ fun CoursesAppNavGraph(startScreen: AppScreens) {
                 HomeRoot()
             }
 
-            composable<AppScreens.LikedCoursesScreen> { }
+            composable<AppScreens.LikedCoursesScreen> {
+                LikedCoursesRoot()
+            }
 
             composable<AppScreens.AccountScreen> { }
         }

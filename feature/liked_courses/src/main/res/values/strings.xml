@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="favorite">Избранное</string>
+    <string name="empty_liked_courses_list">Список избранного пуст</string>
+</resources>

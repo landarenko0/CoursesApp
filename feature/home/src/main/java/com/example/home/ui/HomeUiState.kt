@@ -6,10 +6,7 @@ internal sealed interface HomeUiState {
 
     data object Loading : HomeUiState
 
-    data class Success(
-        val likedCoursesIds: List<Long> = emptyList(),
-        val courses: List<CourseItem> = emptyList()
-    ) : HomeUiState
+    data class Success(val courses: List<CourseItem> = emptyList()) : HomeUiState
 
     data object Failure : HomeUiState
 }

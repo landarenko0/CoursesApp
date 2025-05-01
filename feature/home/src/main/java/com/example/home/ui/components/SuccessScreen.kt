@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import com.example.core.domain.entities.CourseItem
 import com.example.core.ui.components.CourseCard
 import com.example.home.ui.HomeUiState
 import com.example.core.R as coreR
@@ -21,7 +22,7 @@ import com.example.home.R as homeR
 internal fun SuccessScreen(
     uiState: HomeUiState.Success,
     changeCoursesOrderType: () -> Unit,
-    onCourseLikeClick: (Long, Boolean) -> Unit,
+    onCourseLikeClick: (CourseItem) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -61,9 +62,8 @@ internal fun SuccessScreen(
         ) { courseItem ->
             CourseCard(
                 course = courseItem,
-                hasLike = courseItem.id in uiState.likedCoursesIds,
                 onClick = {},
-                onLikeClick = { onCourseLikeClick(courseItem.id, courseItem.id in uiState.likedCoursesIds) },
+                onLikeClick = { onCourseLikeClick(courseItem) },
                 modifier = Modifier.fillMaxWidth()
             )
         }

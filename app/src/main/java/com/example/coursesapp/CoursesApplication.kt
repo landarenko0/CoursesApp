@@ -9,6 +9,7 @@ import com.example.coursesapp.di.appModule
 import com.example.home.di.homeModule
 import com.example.liked_courses.di.likedCoursesDataModule
 import com.example.liked_courses.di.likedCoursesDomainModule
+import com.example.liked_courses.di.likedCoursesModule
 import com.example.login.di.loginModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -40,7 +41,8 @@ class CoursesApplication : Application() {
             // feature modules
             modules(
                 loginModule,
-                homeModule
+                homeModule,
+                likedCoursesModule
             )
         }
     }

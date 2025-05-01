@@ -37,7 +37,7 @@ private fun HomeScreen(
         HomeUiState.Loading -> LoadingScreen(modifier)
 
         HomeUiState.Failure -> FailureScreen(
-            retry = viewModel::getCourses,
+            retry = viewModel::onRetryButtonClick,
             modifier = modifier
         )
 

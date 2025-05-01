@@ -2,6 +2,7 @@ package com.example.home.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core.domain.entities.CourseItem
 import com.example.core.domain.entities.mappers.toItem
 import com.example.courses.entities.ApiResult
 import com.example.courses.entities.Course
@@ -39,9 +40,10 @@ internal class HomeViewModel(
                     is ApiResult.Success -> {
                         _uiState.update {
                             HomeUiState.Success(
-                                likedCoursesIds = likedCourses,
                                 courses = withContext(Dispatchers.Default) {
-                                    val courseItems = allCoursesResult.data.map { it.toItem() }
+                                    val courseItems = allCoursesResult.data.map { course ->
+                                        course.toItem().copy(hasLike = course.id in likedCourses)
+                                    }
 
                                     when (currentOrderType) {
                                         OrderType.PUBLISH_DATE_ASC -> courseItems.sortedBy { it.publishDate }
@@ -84,14 +86,14 @@ internal class HomeViewModel(
         }
     }
 
-    fun onCourseLikeClick(courseId: Long, hasLike: Boolean) {
+    fun onCourseLikeClick(courseItem: CourseItem) {
         viewModelScope.launch {
-            if (hasLike) markCourseAsUnlikedUseCase(courseId)
-            else markCourseAsLikedUseCase(courseId)
+            if (courseItem.hasLike) markCourseAsUnlikedUseCase(courseItem.id)
+            else markCourseAsLikedUseCase(courseItem.id)
         }
     }
 
-    fun getCourses() {
+    fun onRetryButtonClick() {
         viewModelScope.launch {
             _uiState.update { HomeUiState.Loading }
 

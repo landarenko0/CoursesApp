@@ -38,7 +38,6 @@ import java.time.LocalDate
 @Composable
 fun CourseCard(
     course: CourseItem,
-    hasLike: Boolean,
     onClick: () -> Unit,
     onLikeClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -49,7 +48,7 @@ fun CourseCard(
         modifier = modifier
     ) {
         CourseCardImage(
-            hasLike = hasLike,
+            hasLike = course.hasLike,
             rate = course.rate,
             date = course.startDate.formatDate(),
             onLikeClick = onLikeClick,
@@ -256,7 +255,6 @@ private fun CourseCardPreview() {
                 hasLike = true,
                 publishDate = LocalDate.of(2024, 5, 22)
             ),
-            hasLike = true,
             onClick = {},
             onLikeClick = {},
             modifier = Modifier.fillMaxWidth()
