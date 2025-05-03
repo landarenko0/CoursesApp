@@ -4,14 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.domain.entities.CourseItem
 import com.example.core.domain.entities.mappers.toItem
-import com.example.courses.entities.ApiResult
 import com.example.courses.entities.Course
 import com.example.courses.usecases.GetCoursesByIdsUseCase
 import com.example.liked_courses.usecases.GetLikedCoursesIdsUseCase
 import com.example.liked_courses.usecases.MarkCourseAsUnlikedUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
@@ -35,7 +33,7 @@ internal class LikedCoursesViewModel(
                 likedCoursesIds = likedCourses.toList()
 
                 if (likedCourses.isNotEmpty()) {
-                    updateStateByApiResult(getCoursesByIdsUseCase(likedCourses).last())
+                    updateStateByResult(getCoursesByIdsUseCase(likedCourses))
                 } else {
                     _uiState.update { LikedCoursesUiState.Success() }
                 }
@@ -51,21 +49,21 @@ internal class LikedCoursesViewModel(
         viewModelScope.launch {
             _uiState.update { LikedCoursesUiState.Loading }
 
-            updateStateByApiResult(getCoursesByIdsUseCase(likedCoursesIds).last())
+            updateStateByResult(getCoursesByIdsUseCase(likedCoursesIds))
         }
     }
 
-    private fun updateStateByApiResult(apiResult: ApiResult<List<Course>>) {
-        if (apiResult.isSuccess) {
-            _uiState.update {
+    private fun updateStateByResult(result: Result<List<Course>>) {
+        _uiState.update {
+            if (result.isSuccess) {
                 LikedCoursesUiState.Success(
-                    courses = (apiResult as ApiResult.Success).data.map {
+                    courses = result.getOrDefault(emptyList()).map {
                         it.toItem().copy(hasLike = true)
                     }
                 )
+            } else {
+                LikedCoursesUiState.Failure
             }
-        } else {
-            _uiState.update { LikedCoursesUiState.Failure }
         }
     }
 }

@@ -4,19 +4,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.domain.entities.CourseItem
 import com.example.core.domain.entities.mappers.toItem
-import com.example.courses.entities.ApiResult
 import com.example.courses.entities.Course
 import com.example.courses.usecases.GetAllCoursesUseCase
 import com.example.liked_courses.usecases.GetLikedCoursesIdsUseCase
 import com.example.liked_courses.usecases.MarkCourseAsLikedUseCase
 import com.example.liked_courses.usecases.MarkCourseAsUnlikedUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -33,33 +30,14 @@ internal class HomeViewModel(
 
     private var currentOrderType = OrderType.PUBLISH_DATE_ASC
 
+    private var likedCoursesIds: List<Long> = emptyList()
+
     init {
         getLikedCoursesUseCase()
-            .combine(getAllCoursesUseCase()) { likedCourses, allCoursesResult ->
-                when (allCoursesResult) {
-                    is ApiResult.Success -> {
-                        _uiState.update {
-                            HomeUiState.Success(
-                                courses = withContext(Dispatchers.Default) {
-                                    val courseItems = allCoursesResult.data.map { course ->
-                                        course.toItem().copy(hasLike = course.id in likedCourses)
-                                    }
-
-                                    when (currentOrderType) {
-                                        OrderType.PUBLISH_DATE_ASC -> courseItems.sortedBy { it.publishDate }
-                                        OrderType.PUBLISH_DATE_DESC -> courseItems.sortedByDescending { it.publishDate }
-                                    }
-                                }
-                            )
-                        }
-                    }
-
-                    is ApiResult.Failure -> _uiState.update { HomeUiState.Failure }
-
-                    ApiResult.Loading -> _uiState.update { HomeUiState.Loading }
-                }
-            }
-            .launchIn(viewModelScope)
+            .onEach { likedCourses ->
+                likedCoursesIds = likedCourses
+                updateStateByResult(getAllCoursesUseCase())
+            }.launchIn(viewModelScope)
     }
 
     fun changeCoursesOrderType() {
@@ -96,22 +74,26 @@ internal class HomeViewModel(
     fun onRetryButtonClick() {
         viewModelScope.launch {
             _uiState.update { HomeUiState.Loading }
+            updateStateByResult(getAllCoursesUseCase())
+        }
+    }
 
-            val allCoursesResult: ApiResult<List<Course>> = getAllCoursesUseCase().last()
+    private suspend fun updateStateByResult(result: Result<List<Course>>) {
+        _uiState.update {
+            if (result.isSuccess) {
+                HomeUiState.Success(
+                    courses = withContext(Dispatchers.Default) {
+                        val courseItems = result.getOrDefault(emptyList())
+                            .map { it.toItem().copy(hasLike = it.id in likedCoursesIds) }
 
-            if (allCoursesResult.isSuccess) {
-                val courses = (allCoursesResult as ApiResult.Success).data
-                val orderedCourses = async(Dispatchers.Default) {
-                    courses.map { it.toItem() }.sortedBy { it.publishDate }
-                }.await()
-
-                if (_uiState.value is HomeUiState.Success) {
-                    _uiState.update { (it as HomeUiState.Success).copy(courses = orderedCourses) }
-                } else {
-                    _uiState.update { HomeUiState.Success(courses = orderedCourses) }
-                }
+                        when (currentOrderType) {
+                            OrderType.PUBLISH_DATE_ASC -> courseItems.sortedBy { it.publishDate }
+                            OrderType.PUBLISH_DATE_DESC -> courseItems.sortedByDescending { it.publishDate }
+                        }
+                    }
+                )
             } else {
-                _uiState.update { HomeUiState.Failure }
+                HomeUiState.Failure
             }
         }
     }
